@@ -90,12 +90,18 @@
             <!-- Chat messages will be displayed here -->
         </div>
         <div class="chat-input">
-            <input type="text" id="user-input" placeholder="Type a message...">
+            <input type="text" id="user-input" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()">Send</button>
         </div>
     </div>
 
     <script>
+
+        function handleKeyPress(event) {
+            if (event.keyCode === 13) { // Enter key
+                sendMessage();
+            }
+        }
 
         function displayMessage(message) {
             var chatMessages = document.getElementById('chat-messages');
@@ -140,6 +146,9 @@
                 const responseData = await response.json();
                 console.log('Response from backend:', responseData);
                 displayMessage(responseData.bot_response);
+                // Scroll to bottom of chat messages
+                var chatMessages = document.getElementById('chat-messages');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
 
             } catch (error) {
                 console.error('Error:', error);
