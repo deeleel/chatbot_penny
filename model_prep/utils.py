@@ -4,7 +4,7 @@ import re
 import torch
 from torch.utils.data import DataLoader
 from transformers import AutoTokenizer, AutoModel
-from chatbot_penny.model_prep.custom_dataClass import *
+from model_prep.custom_dataClass import *
 
 MAX_LENGTH = 128 # длина предложения
 EMBEDDING_SIZE = 768
