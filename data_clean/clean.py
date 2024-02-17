@@ -66,21 +66,21 @@ def make_df_with_prev(df):
         if df.iloc[i]['episode_name'] != df.iloc[i]['context_2'].split('$$$')[1]:
             context_2.append('$$$')
         else:
-            context_2_now = context_1_now + " [SEP]" + df.iloc[i]['context_2'].split('$$$')[0]
+            context_2_now = df.iloc[i]['context_2'].split('$$$')[0] + " [SEP]" + context_1_now
             context_2.append(context_2_now)
 
 
         if df.iloc[i]['episode_name'] != df.iloc[i]['context_3'].split('$$$')[1]:
             context_3.append('$$$')
         else:
-            context_3_now = context_2_now + " [SEP]" + df.iloc[i]['context_3'].split('$$$')[0]
+            context_3_now = df.iloc[i]['context_3'].split('$$$')[0] + " [SEP]" +  context_2_now
             context_3.append(context_3_now)
 
 
         if df.iloc[i]['episode_name'] != df.iloc[i]['context_4'].split('$$$')[1]:
             context_4.append('$$$')
         else:
-            context_4_now = context_3_now + " [SEP]" + df.iloc[i]['context_4'].split('$$$')[0]
+            context_4_now = df.iloc[i]['context_4'].split('$$$')[0] + " [SEP]" + context_3_now
             context_4.append(context_4_now)
 
     print(len(df.iloc[actual_idx]['dialogue'].values))

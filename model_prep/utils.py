@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader
 from transformers import AutoTokenizer, AutoModel
 from model_prep.custom_dataClass import *
 
+MAIN_CHARACTER = 'Penny'
 MAX_LENGTH = 128 # длина предложения
 EMBEDDING_SIZE = 768
 batch_size = 16
