@@ -17,7 +17,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 df = pd.read_csv('../data/prepared_with_context+label+negative.csv')
 
 # Tokenization
-tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
+tokenizer = BertTokenizerFast.from_pretrained('bert-base-uncased')
 tokenized_response = tokenizer(df['response'].tolist(),
                                max_length=MAX_LENGTH, padding="max_length",
                                truncation=True, verbose=True)
@@ -53,7 +53,7 @@ scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=warmup_s
                                             num_training_steps=total_steps - warmup_steps)
 
 loss_fn = torch.nn.CrossEntropyLoss()
-EPOCHS = 5
+EPOCHS = 2
 
 #### TRAINING
 train_step_fn = get_train_step_fn(model, optimizer, scheduler, loss_fn)
@@ -74,7 +74,7 @@ for epoch in range(1, EPOCHS + 1):
 
 ####
 
-model.bert_model.save_pretrained("../models/sbert_5e")
+model.bert_model.save_pretrained("../models/sbert_2e")
 torch.cuda.empty_cache()
 
 
@@ -82,8 +82,9 @@ torch.cuda.empty_cache()
 index = AnnoyIndex(EMBEDDING_SIZE)
 
 
+df = df[df['label'] == 1]
 ## Save embeddings
-with open('../data/my_embeddings.npy', 'wb') as file:
+with open('../data/context-bi_embeddings.npy', 'wb') as file:
     count = 0
     for i in df.index:
         pooled_embeds = encode([df['context'][i]], model.bert_tokenizer, model.bert_model, device)
@@ -94,4 +95,4 @@ with open('../data/my_embeddings.npy', 'wb') as file:
 
 # Save annoy tree
 index.build(n_trees=5)
-index.save('show.tree')
+index.save('show_context.tree')
