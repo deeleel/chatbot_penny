@@ -4,7 +4,7 @@ from model_prep.utils import *
 from annoy import AnnoyIndex
 import pandas as pd
 
-model = BertModel.from_pretrained('models/sbert_2e')
+model = BertModel.from_pretrained('models/sbert_5e')
 tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased")
 
 index = AnnoyIndex(EMBEDDING_SIZE)
@@ -15,7 +15,7 @@ df = df[df['label'] == 1] # get only true answer - response rows
 df.reset_index(drop=True, inplace=True)
 
 def get_chatbot_response(query, all_context, count):
-    if (count == 0) or (count % 2 == 0):
+    if (count == 0) or (count % 3 == 0):
         all_context = query
     else:
         all_context = all_context + ' [SEP] ' + query
