@@ -19,9 +19,10 @@ def get_chatbot_response(query, all_context, count):
         all_context = query
     else:
         all_context = all_context + ' [SEP] ' + query
-    print(all_context)
 
-    all_context = clean_symbols(all_context)
+    all_context = clean_symbols(all_context).replace('[sep]', '[SEP]')
+    all_context = ' '.join(all_context.split())
+    print(all_context)
     query_embed = encode([all_context], tokenizer, model, 'cpu')
     query_embed = query_embed.detach().numpy()
 
