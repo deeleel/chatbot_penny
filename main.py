@@ -26,7 +26,7 @@ async def open_main_page():
 async def receive_bot_message(bot_message: BotMessage):
     global all_context
     global count
-    answer, new_context = get_chatbot_response(bot_message.message, all_context, count)
+    answer, new_context = await get_chatbot_response(bot_message.message, all_context, count)
     all_context = new_context
     count += 1
 

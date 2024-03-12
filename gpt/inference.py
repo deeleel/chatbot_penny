@@ -1,6 +1,6 @@
 from gpt.utils import *
 
-def get_chatbot_response(query, all_context, count):
+async def get_chatbot_response(query, all_context, count):
     if (count == 0) or (count % 3 == 0):
         all_context = '[Q] ' + query
     else:
