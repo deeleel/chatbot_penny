@@ -1,7 +1,9 @@
 import pandas as pd
 import numpy as np
-from model_prep.utils import *
-
+import sys
+# adding model_utils to the system path
+sys.path.insert(0, '/home/diana/chatbot/chatbot_penny/model_utils')
+from help_funcs import * # type: ignore
 
 df = pd.read_csv('data/1_10_seasons_tbbt.csv', index_col=False)
 
@@ -137,5 +139,6 @@ complete_df = pd.concat([final_df, tmp])
 complete_df.dropna(how='any', inplace=True)
 complete_df['response'] = complete_df['response'].apply(lambda x: ' '.join(x.split()))
 complete_df['context'] = complete_df['context'].apply(lambda x: ' '.join(x.split()))
+complete_df['context'] = complete_df['context'].apply(lambda x: x.replace('[sep]', '[SEP]'))
 
-complete_df.to_csv('../data/prepared_with_context+label+negative.csv', index=False)
+complete_df.to_csv('data/prepared_with_context+label+negative.csv', index=False)
