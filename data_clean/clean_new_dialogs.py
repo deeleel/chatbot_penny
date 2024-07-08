@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv('data/prepared_with_context+label+negative.csv')
+df = pd.read_csv('data/prepared_dataset.csv')
 df.dropna(how='any', inplace=True)
 
 from bert.utils_bert import clean_symbols

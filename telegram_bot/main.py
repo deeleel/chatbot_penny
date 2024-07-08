@@ -3,7 +3,11 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 
 import sys
 sys.path.insert(0, '/home/diana/chatbot/chatbot_penny/bert')
-from inference import *
+from inference import * # type:ignore
+
+sys.path.insert(0, '/home/diana/chatbot/chatbot_penny/gpt')
+from gpt_inference import * # type:ignore
+
 
 user_messages = {}
 API_TOKEN = '1412991836:AAEk5JUNkvd8J-FM4OHjSPNK-3ZHbMadYRc'
@@ -22,8 +26,8 @@ def store_message(user_id, text) -> None:
 
     user_messages[user_id].append(text)
 
-    if len(user_messages[user_id]) > 4:
-        user_messages[user_id] = [user_messages[user_id][-1]]
+    if len(user_messages[user_id]) > 2:
+        user_messages[user_id] = user_messages[user_id][-2:]
 
 
 def generate_response(update: Update, context: CallbackContext):
@@ -31,9 +35,12 @@ def generate_response(update: Update, context: CallbackContext):
     text = update.message.text
     store_message(user_id=user_id, text=text)
 
-    answer = get_chatbot_response(user_messages[user_id])
-    store_message(user_id=user_id, text=answer)
+    if answer_generator == 'bert':
+        answer = get_chatbot_response(user_messages[user_id]) # type:ignore
+    else:
+        answer = get_chatbot_response_gpt(user_messages[user_id]) # type:ignore
 
+    store_message(user_id=user_id, text=answer)
     return update.message.reply_text(answer)
 
 
@@ -43,6 +50,10 @@ def help_command(update: Update, context: CallbackContext) -> None:
 def switch_to_gpt(update: Update, context: CallbackContext) -> None:
     global answer_generator
     answer_generator = 'gpt'
+
+def switch_to_bert(update: Update, context: CallbackContext) -> None:
+    global answer_generator
+    answer_generator = 'bert'
 
 
 def main() -> None:
@@ -54,8 +65,8 @@ def main() -> None:
     # on different commands, do something
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("help", help_command))
-    dispatcher.add_handler(CommandHandler("GPT", switch_to_gpt))
-    dispatcher.add_handler(CommandHandler("Bert", switch_to_gpt))
+    dispatcher.add_handler(CommandHandler("gpt", switch_to_gpt))
+    dispatcher.add_handler(CommandHandler("bert", switch_to_bert))
     dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, generate_response))
 
     # Start the Bot

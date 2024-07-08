@@ -3,22 +3,16 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel
 from utils import *
 
 class GPT(torch.nn.Module):
-    def __init__(self, model_path='distilgpt2'):
+    def __init__(self, tokenizer_path=TOKENIZER_PATH_GPT, model_path='distilgpt2'):
         super(GPT, self).__init__()
-        self.model_name = model_path
-        self._init_tokenizer()
+        self.tokenizer = GPT2Tokenizer.from_pretrained(tokenizer_path)
         self.model = GPT2LMHeadModel.from_pretrained(model_path)
         self.model.resize_token_embeddings(len(self.tokenizer))
-
-    def _init_tokenizer(self):
-        if self.model_name == 'distilgpt2':
-            self.tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2', pad_token='[PAD]', sep_token='[SEP]')
-            self.tokenizer.add_special_tokens({'pad_token': '[PAD]', 'sep_token': '[SEP]'})
-        else:
-            self.tokenizer = GPT2Tokenizer.from_pretrained(self.model_name+'tokenizer')
     
-    def forward(self, x):
-        input_ids = x["input_ids"].to(device)
-        attension_mask = x["attention_mask"].to(device)
-        
-        return self.model(input_ids, attention_mask=attension_mask, labels=input_ids)
+    def forward(self, data):
+        input_ids = data["input_ids"].to(device)
+        attension_mask = data["attention_mask"].to(device)
+        labels = data["labels"].to(device)
+
+        gpt_out = self.model(input_ids, attention_mask=attension_mask, labels=labels)
+        return gpt_out

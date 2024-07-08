@@ -5,7 +5,7 @@ from annoy import AnnoyIndex
 from torch.utils.data import DataLoader, random_split
 from transformers import AutoTokenizer
 from transformers.optimization import get_linear_schedule_with_warmup
-from CustomDataset import *
+from bert.series_dataset import *
 from bert_model import *
 
 

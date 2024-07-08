@@ -3,7 +3,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 import sys
 sys.path.insert(0, '/home/diana/chatbot/chatbot_penny/bert')
-from bert.utils_bert import *
+from utils_bert import *
 from annoy import AnnoyIndex
 import pandas as pd
 

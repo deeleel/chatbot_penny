@@ -1,26 +1,13 @@
 from typing import Callable
 import numpy as np
 import re
-import torch
 from torch.utils.data import DataLoader
 from transformers import AutoTokenizer, AutoModel
 import sys
+from bert_config import *
 # adding bert to the system path
 sys.path.insert(0, '/home/diana/chatbot/chatbot_penny/bert')
-from CustomDataset import *
-
-
-MAIN_CHARACTER = 'Penny'
-# Training params
-DATA_FILE_PATH = 'data/updated_dialogs.csv'
-MODEL_NAME = 'bert-base-uncased'
-MAX_LENGTH = 128 # длина предложения
-EMBEDDING_SIZE = 768
-batch_size = 16
-device = "cuda" if torch.cuda.is_available() else "cpu"
-# Inference params
-TRAINED_MODEL_PATH = 'bert/models/sbert_2e_v3'
-CONTEXT_EMBEDDINGS_TREE = 'data/show_context.tree'
+from series_dataset import *
 
 
 def clean_symbols(x):

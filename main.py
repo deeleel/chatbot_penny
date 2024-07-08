@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-from gpt.inference import *
+from gpt.gpt_inference import *
 # from model_prep.inference import *
 
 class BotMessage(BaseModel):
