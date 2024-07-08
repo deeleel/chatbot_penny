@@ -162,4 +162,5 @@ cython_debug/
 1_10_seasons_tbbt.csv
 my_embeddings.npy
 show.tree
-
+models/*
+notebooks
