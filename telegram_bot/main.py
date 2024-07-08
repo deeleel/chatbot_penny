@@ -10,7 +10,7 @@ from gpt_inference import * # type:ignore
 
 
 user_messages = {}
-API_TOKEN = '1412991836:AAEk5JUNkvd8J-FM4OHjSPNK-3ZHbMadYRc'
+API_TOKEN = '...'
 answer_generator = 'bert'
 
 # Define a command handler. This usually takes two parameters: update and context.
